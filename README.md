@@ -1,35 +1,47 @@
 # Aksh Boutique Website
 
-This is a boutique website I made for my sister.
+This is a boutique website I made for my sister's clothing brand, `Aksh`.
 
-The goal of this project was to create a clean and modern fashion website for her brand, `Aksh`, with a soft premium look and a simple user experience for both desktop and mobile users.
+The project was built as a clean fashion landing page that introduces the brand, highlights featured looks, and gives customers an easy way to contact the boutique.
+
+## What This Project Is
+
+`Aksh Boutique Website` is a static front-end project built with HTML, CSS, and JavaScript.
+
+It is designed to:
+
+- present the boutique in a clean and professional way
+- showcase featured outfits
+- share the brand story
+- make it easy for customers to contact the boutique through WhatsApp or the contact form
 
 ## Features
 
-- Responsive boutique landing page
+- Responsive landing page for desktop and mobile
 - Hero section with brand introduction
-- Product showcase cards
-- About section
+- Product showcase cards with detail modal
+- About section for the boutique story
 - Contact section with WhatsApp button
-- Smooth animations and interactive effects
-- Mobile-friendly layout
+- Clean mobile navigation
+- Simple, lightweight interactions
 
-## Built With
+## Tech Stack
 
-- HTML
-- CSS
+- HTML5
+- CSS3
 - JavaScript
 
-## Website Sections
+## Live Demo
 
-- Home
-- Collection
-- About
-- Contact
+Live demo will be added after connecting this repository to Netlify.
 
-## How to Run
+## Deploy to Netlify
 
-1. Download or clone this repository
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/anurag-coder07/aksh-boutique)
+
+## Run Locally
+
+1. Clone or download this repository
 2. Open `index.html` in your browser
 
 You can also run it with a local server:
@@ -40,8 +52,18 @@ python -m http.server
 
 Then open `http://localhost:8000`
 
+## Deployment
+
+This project is prepared for Netlify deployment.
+
+Recommended setup:
+
+- Build command: leave empty
+- Publish directory: `.`
+- Production branch: `main`
+
 ## Notes
 
-- Update the contact details, email, and social links if needed
-- The website is designed to work on both desktop and mobile screens
-
+- Update the Instagram, Pinterest, and email links if needed
+- Update product information and branding text based on the boutique
+- Add the Netlify live link to this README after deployment
