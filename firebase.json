@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "README.md",
+      "netlify.toml",
+      ".git/**",
+      ".github/**",
+      "**/node_modules/**"
+    ]
+  }
+}
