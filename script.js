@@ -16,7 +16,10 @@ const productDetails = [
     {
         tag: "Featured Set",
         title: "Rose Drape Set",
-        price: "From INR 4,800",
+        price: "INR 4,800",
+        image:
+            "https://images.pexels.com/photos/13205973/pexels-photo-13205973.jpeg?auto=compress&cs=tinysrgb&w=900",
+        imageAlt: "Model wearing the Rose Drape Set in a soft neutral tone",
         description:
             "A romantic layered set with a soft blush tone, fluid drape, and occasion-ready polish for intimate celebrations.",
         points: [
@@ -28,7 +31,10 @@ const productDetails = [
     {
         tag: "Boutique Dress",
         title: "Ivory Muse Dress",
-        price: "From INR 5,200",
+        price: "INR 5,200",
+        image:
+            "https://images.pexels.com/photos/9638162/pexels-photo-9638162.jpeg?auto=compress&cs=tinysrgb&w=900",
+        imageAlt: "Model wearing the Ivory Muse Dress against a rustic textured backdrop",
         description:
             "An understated dress with clean lines and a calm palette designed for elegant daytime dressing.",
         points: [
@@ -40,7 +46,10 @@ const productDetails = [
     {
         tag: "Modern Co-ord",
         title: "Sand Tailored Co-ord",
-        price: "From INR 4,400",
+        price: "INR 4,400",
+        image:
+            "https://images.pexels.com/photos/13816068/pexels-photo-13816068.jpeg?auto=compress&cs=tinysrgb&w=900",
+        imageAlt: "Model wearing the Sand Tailored Co-ord in a studio setting",
         description:
             "A structured yet relaxed co-ord that brings boutique polish into everyday wear.",
         points: [
@@ -52,7 +61,10 @@ const productDetails = [
     {
         tag: "Evening Edit",
         title: "Noir Evening Layer",
-        price: "From INR 5,750",
+        price: "INR 5,750",
+        image:
+            "https://images.pexels.com/photos/15555031/pexels-photo-15555031.jpeg?auto=compress&cs=tinysrgb&w=900",
+        imageAlt: "Model wearing the Noir Evening Layer in a minimalist indoor setting",
         description:
             "A darker statement piece with elegant flow, suited to evening styling and elevated occasion wear.",
         points: [
@@ -64,7 +76,10 @@ const productDetails = [
     {
         tag: "Festive Highlight",
         title: "Pearl Festive Kurta",
-        price: "From INR 4,100",
+        price: "INR 4,100",
+        image:
+            "https://images.pexels.com/photos/11840169/pexels-photo-11840169.jpeg?auto=compress&cs=tinysrgb&w=900",
+        imageAlt: "Model wearing the Pearl Festive Kurta with traditional detailing",
         description:
             "A festive boutique piece in pearl tones, designed for light celebrations and graceful dressing.",
         points: [
@@ -76,7 +91,10 @@ const productDetails = [
     {
         tag: "Weekend Capsule",
         title: "Sage Weekend Edit",
-        price: "From INR 3,900",
+        price: "INR 3,900",
+        image:
+            "https://images.pexels.com/photos/10054181/pexels-photo-10054181.jpeg?auto=compress&cs=tinysrgb&w=900",
+        imageAlt: "Model wearing the Sage Weekend Edit outdoors in soft natural light",
         description:
             "A calm, modern set designed for brunch plans, relaxed evenings, and easy boutique styling.",
         points: [
@@ -88,10 +106,11 @@ const productDetails = [
 ];
 
 const siteHeader = document.querySelector(".site-header");
-const productCards = document.querySelectorAll(".product-card");
+const productActionButtons = document.querySelectorAll(".product-card-action");
 const modal = document.getElementById("product-modal");
 const modalBackdrop = document.getElementById("modal-backdrop");
 const modalClose = document.getElementById("modal-close");
+const modalImage = document.getElementById("modal-image");
 const modalTag = document.getElementById("modal-tag");
 const modalTitle = document.getElementById("modal-title");
 const modalPrice = document.getElementById("modal-price");
@@ -106,10 +125,12 @@ const heroShell = document.querySelector(".sculpture-shell");
 
 function openProductModal(index) {
     const product = productDetails[index];
-    if (!product || !modal || !modalTag || !modalTitle || !modalPrice || !modalDescription || !modalPoints) {
+    if (!product || !modal || !modalImage || !modalTag || !modalTitle || !modalPrice || !modalDescription || !modalPoints) {
         return;
     }
 
+    modalImage.src = product.image;
+    modalImage.alt = product.imageAlt;
     modalTag.textContent = product.tag;
     modalTitle.textContent = product.title;
     modalPrice.textContent = product.price;
@@ -135,9 +156,9 @@ function closeProductModal() {
     document.body.style.overflow = "";
 }
 
-productCards.forEach((card) => {
-    card.addEventListener("click", () => {
-        openProductModal(Number(card.dataset.productIndex));
+productActionButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        openProductModal(Number(button.dataset.productIndex));
     });
 });
 
@@ -213,6 +234,8 @@ if (menuToggle && navLinks) {
             closeMenu();
         }
     }, { passive: true });
+
+    window.addEventListener("resize", closeMenu);
 }
 
 function setHeroRotation(rotateX, rotateY, shiftY = 0) {
@@ -249,21 +272,7 @@ function attachIOSHeroMotion() {
         return;
     }
 
-    setHeroRotation(-3, 4, 0);
-
-    let currentStep = 0;
-    const motionFrames = [
-        { x: -4, y: 5, shift: 0 },
-        { x: -2, y: 2, shift: -4 },
-        { x: -5, y: -3, shift: -2 },
-        { x: -3, y: 4, shift: 0 }
-    ];
-
-    window.setInterval(() => {
-        const frame = motionFrames[currentStep];
-        setHeroRotation(frame.x, frame.y, frame.shift);
-        currentStep = (currentStep + 1) % motionFrames.length;
-    }, 2400);
+    setHeroRotation(-2, 3, 0);
 }
 
 attachDesktopHeroMotion();
