@@ -2,6 +2,16 @@
 document.documentElement.classList.remove("no-js");
 document.documentElement.classList.add("js-enabled");
 
+const userAgent = window.navigator.userAgent;
+const isIOSDevice = /iP(ad|hone|od)/.test(userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const isSafariBrowser = /Safari/.test(userAgent) && !/Chrome|CriOS|EdgiOS|FxiOS/.test(userAgent);
+const shouldUseIOSHeroFallback = isIOSDevice && isSafariBrowser;
+
+if (shouldUseIOSHeroFallback) {
+    document.documentElement.classList.add("ios-safari");
+}
+
 const productDetails = [
     {
         tag: "Featured Set",
@@ -91,6 +101,8 @@ const contactForm = document.getElementById("contact-form");
 const formMessage = document.getElementById("form-message");
 const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.getElementById("nav-links");
+const heroVisual = document.getElementById("hero-visual");
+const heroShell = document.querySelector(".sculpture-shell");
 
 function openProductModal(index) {
     const product = productDetails[index];
@@ -163,6 +175,11 @@ if (contactForm && formMessage) {
 }
 
 if (menuToggle && navLinks) {
+    function closeMenu() {
+        navLinks.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+    }
+
     menuToggle.addEventListener("click", () => {
         const isOpen = navLinks.classList.toggle("is-open");
         menuToggle.setAttribute("aria-expanded", String(isOpen));
@@ -170,8 +187,84 @@ if (menuToggle && navLinks) {
 
     navLinks.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
-            navLinks.classList.remove("is-open");
-            menuToggle.setAttribute("aria-expanded", "false");
+            closeMenu();
         });
     });
+
+    document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) {
+            return;
+        }
+
+        if (!navLinks.classList.contains("is-open")) {
+            return;
+        }
+
+        if (navLinks.contains(target) || menuToggle.contains(target)) {
+            return;
+        }
+
+        closeMenu();
+    });
+
+    window.addEventListener("scroll", () => {
+        if (navLinks.classList.contains("is-open")) {
+            closeMenu();
+        }
+    }, { passive: true });
 }
+
+function setHeroRotation(rotateX, rotateY, shiftY = 0) {
+    if (!heroShell) {
+        return;
+    }
+
+    heroShell.style.setProperty("--hero-rotate-x", `${rotateX}deg`);
+    heroShell.style.setProperty("--hero-rotate-y", `${rotateY}deg`);
+    heroShell.style.setProperty("--hero-shift-y", `${shiftY}px`);
+}
+
+function attachDesktopHeroMotion() {
+    if (!heroVisual || !heroShell || window.matchMedia("(max-width: 768px)").matches) {
+        return;
+    }
+
+    heroVisual.addEventListener("pointermove", (event) => {
+        const bounds = heroVisual.getBoundingClientRect();
+        const offsetX = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const offsetY = (event.clientY - bounds.top) / bounds.height - 0.5;
+        const rotateY = offsetX * 10;
+        const rotateX = offsetY * -8;
+        setHeroRotation(rotateX, rotateY);
+    });
+
+    heroVisual.addEventListener("pointerleave", () => {
+        setHeroRotation(0, 0, 0);
+    });
+}
+
+function attachIOSHeroMotion() {
+    if (!shouldUseIOSHeroFallback || !heroShell) {
+        return;
+    }
+
+    setHeroRotation(-3, 4, 0);
+
+    let currentStep = 0;
+    const motionFrames = [
+        { x: -4, y: 5, shift: 0 },
+        { x: -2, y: 2, shift: -4 },
+        { x: -5, y: -3, shift: -2 },
+        { x: -3, y: 4, shift: 0 }
+    ];
+
+    window.setInterval(() => {
+        const frame = motionFrames[currentStep];
+        setHeroRotation(frame.x, frame.y, frame.shift);
+        currentStep = (currentStep + 1) % motionFrames.length;
+    }, 2400);
+}
+
+attachDesktopHeroMotion();
+attachIOSHeroMotion();
